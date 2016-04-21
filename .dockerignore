@@ -1,5 +1,7 @@
 .git
-root
-build.sh
+.gitignore
+.idea
 LICENSE
 README.md
+build.sh
+root
