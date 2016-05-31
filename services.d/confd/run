@@ -1,0 +1,9 @@
+#!/usr/bin/execlineb -P
+
+foreground {
+  loopwhilex -x 0
+  s6-sleep 1 wget -q -O /dev/null http://rancher-metadata
+}
+
+s6-setuidgid nobody
+/confd --backend rancher --prefix /2015-12-19

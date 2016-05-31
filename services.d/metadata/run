@@ -1,0 +1,12 @@
+#!/usr/bin/execlineb -P
+
+if -n {
+  wget -q -O /dev/null http://rancher-metadata
+}
+
+foreground {
+  redirfd -a -n 1 /etc/hosts s6-echo "127.0.0.1 rancher-metadata"
+}
+
+s6-setuidgid nobody
+/rancher-metadata/bin/rancher-metadata -answers /answers.yml
