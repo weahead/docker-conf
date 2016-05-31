@@ -1,23 +1,29 @@
 # We ahead's configuration container
 
-[![latest 1.0.0](https://img.shields.io/badge/latest-1.0.0-green.svg)](https://github.com/weahead/docker-conf/releases/tag/v1.0.0)
+[![latest 2.0.0](https://img.shields.io/badge/latest-2.0.0-green.svg)](https://github.com/weahead/docker-conf/releases/tag/v2.0.0)
 
 This container is used for providing configuration files generated with 
 [confd](https://github.com/kelseyhightower/confd) for other containers via
 volumes.
 
-For use with [Rancher](http://rancher.com/) because it 
-uses Rancher's [Metadata Service](http://docs.rancher.com/rancher/rancher-services/metadata-service/).
+This image uses Rancher's [Metadata Service](http://docs.rancher.com/rancher/rancher-services/metadata-service/)
+as a backend for confd. When deployed on [Rancher](http://rancher.com/) it will 
+properly use Ranchers Metadata service, if it is unavailable due to deployment 
+elsewhere (like during development) it will start its own metadata service 
+based on a [release of Rancher Metadata](https://github.com/rancher/rancher-metadata/releases).
+
+Both confd and Rancher metadata run as non-root user inside the container.
 
 
 ## How to use
 
-Create a folder structure that looks like [`root`](root). Add template 
-resources and templates to specified folders. Add a new Dockerfile that looks 
-like this:
+- Create a folder structure that looks like [`root`](root).
+- Add [template resources](https://github.com/kelseyhightower/confd/blob/master/docs/template-resources.md) 
+- Add [templates](https://github.com/kelseyhightower/confd/blob/master/docs/templates.md) 
+- Add a file named `Dockerfile` that looks like this:
 
 ```
-FROM weahead/conf:1.0.0
+FROM weahead/conf:2.0.0
 
 VOLUME /usr/local/etc/<name>
 ```
@@ -34,7 +40,7 @@ The above Dockerfile can be made even simpler by using Dockers `ONBUILD` and
 `ARG` instructions together, leaving just the `FROM` instruction. Unfortunately 
 the Docker Hub is still running 1.8, which does not support the `ARG`
 instruction. There is an issue tracking the  support for 1.9 features on Docker 
-Hub,  [#460](https://github.com/docker/hub-feedback/issues/460)
+Hub, [#460](https://github.com/docker/hub-feedback/issues/460)
 
 
 ## License
