@@ -39,4 +39,4 @@ Hub,  [#460](https://github.com/docker/hub-feedback/issues/460)
 
 ## License
 
-[MIT](LICENSE)
+[X11](LICENSE)
