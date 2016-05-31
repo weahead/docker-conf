@@ -34,6 +34,15 @@ in your Dockerfile.
 Build it.
 
 
+### How to use the built in Rancher metadata
+
+- Create a YAML file and make it available at `/answers.yml` inside the
+  container.
+- Edit it to suite your needs.
+
+See example: [answers.example.yml](answers.example.yml)
+
+
 ### A note on Docker Hub
 
 The above Dockerfile can be made even simpler by using Dockers `ONBUILD` and 
