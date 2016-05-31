@@ -1,0 +1,9 @@
+latest: &id1
+  default:
+    self:
+      service:
+        metadata:
+          key1: value1
+          key2: value2
+'2015-12-19': *id1
+
