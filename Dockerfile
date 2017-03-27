@@ -4,7 +4,7 @@ LABEL maintainer "We ahead <docker@weahead.se>"
 
 ENV CONFD_VERSION=0.12.1\
     S6_VERSION=1.19.1.1\
-    RANCHER_METADATA_VERSION=0.5.1\
+    RANCHER_METADATA_VERSION=0.9.0\
     S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 
 RUN apk --no-cache add --virtual build-deps\
