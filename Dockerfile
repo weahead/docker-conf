@@ -1,10 +1,10 @@
 FROM alpine:3.3
 
-MAINTAINER We ahead <docker@weahead.se>
+LABEL maintainer "We ahead <docker@weahead.se>"
 
-ENV CONFD_VERSION=0.11.0\
-    S6_VERSION=1.17.2.0\
-    RANCHER_METADATA_VERSION=0.5.1\
+ENV CONFD_VERSION=0.12.1\
+    S6_VERSION=1.19.1.1\
+    RANCHER_METADATA_VERSION=0.9.0\
     S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 
 RUN apk --no-cache add --virtual build-deps\
@@ -19,7 +19,7 @@ RUN apk --no-cache add --virtual build-deps\
   && gpg --keyserver pgp.mit.edu --recv-key 0x337EE704693C17EF \
   && gpg --batch --verify /tmp/s6-overlay-amd64.tar.gz.sig /tmp/s6-overlay-amd64.tar.gz \
   && tar -xzf /tmp/s6-overlay-amd64.tar.gz -C / \
-  && curl -L -o /confd "https://github.com/kelseyhightower/confd/releases/download/v${CONFD_VERSION}/confd-${CONFD_VERSION}-linux-amd64" \
+  && curl -L -o /confd "https://github.com/bacongobbler/confd/releases/download/v${CONFD_VERSION}/confd-${CONFD_VERSION}-linux-amd64" \
   && chmod +x /confd \
   && curl -OL "https://github.com/rancher/rancher-metadata/releases/download/v${RANCHER_METADATA_VERSION}/rancher-metadata.tar.gz" \
   && mkdir -p /rancher-metadata \
