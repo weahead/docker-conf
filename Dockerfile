@@ -1,6 +1,6 @@
 FROM alpine:3.3
 
-MAINTAINER We ahead <docker@weahead.se>
+LABEL maintainer "We ahead <docker@weahead.se>"
 
 ENV CONFD_VERSION=0.11.0\
     S6_VERSION=1.17.2.0\
