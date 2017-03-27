@@ -3,7 +3,7 @@ FROM alpine:3.3
 LABEL maintainer "We ahead <docker@weahead.se>"
 
 ENV CONFD_VERSION=0.12.1\
-    S6_VERSION=1.17.2.0\
+    S6_VERSION=1.19.1.1\
     RANCHER_METADATA_VERSION=0.5.1\
     S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 
