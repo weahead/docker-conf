@@ -1,6 +1,6 @@
 # We ahead's configuration container
 
-[![latest 3.0.0](https://img.shields.io/badge/latest-3.0.0-green.svg)](https://github.com/weahead/docker-conf/releases/tag/v3.0.0)
+[![latest 3.0.1](https://img.shields.io/badge/latest-3.0.1-green.svg)](https://github.com/weahead/docker-conf/releases/tag/v3.0.1)
 
 This container is used for providing configuration files generated with 
 [confd](https://github.com/kelseyhightower/confd) for other containers via
@@ -23,7 +23,7 @@ Both confd and Rancher metadata run as non-root user inside the container.
 - Add a file named `Dockerfile` that looks like this:
 
 ```
-FROM weahead/conf:3.0.0
+FROM weahead/conf:3.0.1
 
 VOLUME /usr/local/etc/<name>
 ```
