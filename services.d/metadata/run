@@ -9,4 +9,4 @@ foreground {
 }
 
 s6-setuidgid nobody
-/rancher-metadata/bin/rancher-metadata -answers /answers.yml
+/rancher-metadata/bin/rancher-metadata --answers /answers.yml

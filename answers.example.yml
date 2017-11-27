@@ -1,9 +1,23 @@
-latest: &id1
-  default:
-    self:
-      service:
-        metadata:
-          key1: value1
-          key2: value2
-'2015-12-19': *id1
+'2015-12-19': &latest
+  '10.1.2.2':
+    key1: value1
+    arbitrarily:
+      nested:
+        - YAML
+        - of
+        - any
+        - type
+        - 42
+        - null
+        - false
+  '192.168.0.2':
+    key1: value2
 
+  # "default" is a special key that will be checked if no answer is found in a client IP-specific entry
+  default:
+    key1: value3
+
+'2015-07-25':
+  # Data for older revision
+
+latest: *latest
