@@ -1,32 +1,49 @@
+FROM golang:1.9.2-alpine3.6 as builder
+
+ENV RANCHER_METADATA_VERSION=0.9.0
+
+WORKDIR /go/src/github.com/rancher/rancher-metadata/
+
+RUN apk --no-cache add \
+      git \
+      curl \
+      tar \
+    && go get github.com/tools/godep \
+    && curl -OL "https://github.com/rancher/rancher-metadata/archive/v${RANCHER_METADATA_VERSION}.tar.gz" \
+    && tar --strip-components=1 -zxf "v${RANCHER_METADATA_VERSION}.tar.gz" \
+    && go build -o rancher-metadata .
+
+
 FROM alpine:3.6
 
 LABEL maintainer="We ahead <docker@weahead.se>"
 
 ENV CONFD_VERSION=0.12.1\
     S6_VERSION=1.19.1.1\
-    RANCHER_METADATA_VERSION=0.9.0\
     S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 
 RUN apk --no-cache add --virtual build-deps\
     curl \
     tar \
     gnupg \
-    libcap \
   && cd /tmp \
   && curl -OL "https://github.com/just-containers/s6-overlay/releases/download/v${S6_VERSION}/s6-overlay-amd64.tar.gz" \
   && curl -OL "https://github.com/just-containers/s6-overlay/releases/download/v${S6_VERSION}/s6-overlay-amd64.tar.gz.sig" \
   && export GNUPGHOME="$(mktemp -d)" \
-  && gpg --keyserver pgp.mit.edu --recv-key 0x337EE704693C17EF \
-  && gpg --batch --verify /tmp/s6-overlay-amd64.tar.gz.sig /tmp/s6-overlay-amd64.tar.gz \
+  && curl https://keybase.io/justcontainers/key.asc | gpg --import \
+  && gpg --verify /tmp/s6-overlay-amd64.tar.gz.sig /tmp/s6-overlay-amd64.tar.gz \
   && tar -xzf /tmp/s6-overlay-amd64.tar.gz -C / \
   && curl -L -o /confd "https://github.com/bacongobbler/confd/releases/download/v${CONFD_VERSION}/confd-${CONFD_VERSION}-linux-amd64" \
   && chmod +x /confd \
-  && curl -OL "https://github.com/rancher/rancher-metadata/releases/download/v${RANCHER_METADATA_VERSION}/rancher-metadata.tar.gz" \
-  && mkdir -p /rancher-metadata \
-  && tar -C /rancher-metadata/ --strip-components=1 -zxf /tmp/rancher-metadata.tar.gz \
-  && setcap 'cap_net_bind_service=+ep' /rancher-metadata/bin/rancher-metadata \
   && rm -rf "$GNUPGHOME" /tmp/* \
   && apk del build-deps
+
+COPY --from=builder /go/src/github.com/rancher/rancher-metadata/rancher-metadata /usr/local/bin/rancher-metadata
+
+RUN apk --no-cache add --virtual build-deps \
+      libcap \
+    && setcap 'cap_net_bind_service=+ep' /usr/local/bin/rancher-metadata \
+    && apk del build-deps
 
 COPY services.d/ /etc/services.d/
 
