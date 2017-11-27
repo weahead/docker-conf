@@ -1,3 +1,3 @@
 #!/bin/sh
 
-docker build -t weahead/conf:3.0.1 .
+docker build -t weahead/conf:3.0.2 .
