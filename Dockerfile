@@ -1,18 +1,4 @@
-FROM golang:1.9.2-alpine3.6 as builder
-
-ENV RANCHER_METADATA_VERSION=0.9.0
-
-WORKDIR /go/src/github.com/rancher/rancher-metadata/
-
-RUN apk --no-cache add \
-      git \
-      curl \
-      tar \
-    && go get github.com/tools/godep \
-    && curl -OL "https://github.com/rancher/rancher-metadata/archive/v${RANCHER_METADATA_VERSION}.tar.gz" \
-    && tar --strip-components=1 -zxf "v${RANCHER_METADATA_VERSION}.tar.gz" \
-    && go build -o rancher-metadata .
-
+FROM rancher/metadata:v0.7.4 as metadata
 
 FROM alpine:3.6
 
@@ -38,7 +24,7 @@ RUN apk --no-cache add --virtual build-deps\
   && rm -rf "$GNUPGHOME" /tmp/* \
   && apk del build-deps
 
-COPY --from=builder /go/src/github.com/rancher/rancher-metadata/rancher-metadata /usr/local/bin/rancher-metadata
+COPY --from=metadata /usr/bin/rancher-metadata /usr/local/bin/rancher-metadata
 
 RUN apk --no-cache add --virtual build-deps \
       libcap \
