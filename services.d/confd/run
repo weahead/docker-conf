@@ -6,4 +6,4 @@ foreground {
 }
 
 s6-setuidgid nobody
-/confd --backend rancher --prefix /2015-12-19
+/confd --backend rancher --prefix /latest
